@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Microbiology & Infectious Disease Finals Review</title>
+  <style>
+    :root {
+      --bg: #0b1329;
+      --card-bg: #16203a;
+      --card-inner: #1e294b;
+      --border: #2e3e6b;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-hover: #0ea5e9;
+      --success: #22c55e;
+      --error: #ef4444;
+      --success-bg: rgba(34, 197, 94, 0.15);
+      --error-bg: rgba(239, 68, 68, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 2.25rem;
+      box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+
+    .tagline {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .signature {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      border-left: 3px solid var(--accent);
+      padding-left: 0.75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--accent);
+      color: #0b1329;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.9rem 1.8rem;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+      width: 100%;
+    }
+
+    .btn:hover {
+      background-color: var(--accent-hover);
+      color: #ffffff;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--card-inner);
+      color: #fff;
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .grid-branches {
+      display: grid;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .branch-card {
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.2s, background-color 0.2s;
+      color: var(--text);
+      width: 100%;
+    }
+
+    .branch-card:hover {
+      border-color: var(--accent);
+      background-color: rgba(56, 189, 248, 0.08);
+    }
+
+    .branch-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.35rem;
+      color: #fff;
+    }
+
+    .branch-card p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+
+    .question-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .option-btn {
+      background: var(--card-inner);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 1rem 1.25rem;
+      text-align: left;
+      font-size: 0.975rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color 0.15s, background-color 0.15s;
+      line-height: 1.4;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      background-color: rgba(56, 189, 248, 0.05);
+    }
+
+    .option-btn.correct {
+      border-color: var(--success) !important;
+      background-color: var(--success-bg) !important;
+      color: #4ade80 !important;
+      font-weight: 600;
+    }
+
+    .option-btn.incorrect {
+      border-color: var(--error) !important;
+      background-color: var(--error-bg) !important;
+      color: #f87171 !important;
+    }
+
+    .explanation-box {
+      background: #0d1527;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 0.5rem 0.5rem 0;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.925rem;
+      line-height: 1.5;
+    }
+
+    .explanation-box.hidden {
+      display: none;
+    }
+
+    .explanation-box strong {
+      color: var(--accent);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .nav-bar {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .score-box {
+      text-align: center;
+      padding: 2.5rem 1rem;
+    }
+
+    .score-badge {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container">
+    <!-- Home Landing Page -->
+    <section id="view-home" class="view active">
+      <h1>WELCOME!</h1>
+      <p class="tagline">GOODLUCK SA FINALS TODAY!</p>
+      <div class="signature">- JCPR</div>
+      <button class="btn" onclick="showBranchSelect()">Start</button>
+    </section>
+
+    <!-- Branch / Module Selection View -->
+    <section id="view-branches" class="view">
+      <h2>Select Quiz Branch</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1rem;">Choose a specific topic branch or challenge the complete question bank:</p>
+      
+      <div class="grid-branches">
+        <button class="branch-card" onclick="startQuiz('all')">
+          <h3>Full Practice Exam</h3>
+          <p>Complete 132-question bank spanning all chapters and topics</p>
+        </button>
+        <button class="branch-card" onclick="startQuiz('part1')">
+          <h3>Part I: Fundamental Principles & Infection Concepts</h3>
+          <p>Questions 1–20: Portals of entry/exit, virulence, endotoxins vs exotoxins, ID50</p>
+        </button>
+        <button class="branch-card" onclick="startQuiz('part2')">
+          <h3>Part II: NRS103 Microbiology Comprehensive Series</h3>
+          <p>Questions 21–60: Leukopenia, microbial antagonism, normal flora, bacterial enzymes</p>
+        </button>
+        <button class="branch-card" onclick="startQuiz('part3')">
+          <h3>Part III: Respiratory Infections (TB, Flu, & Strep)</h3>
+          <p>Questions 61–91: Active vs latent TB, airborne precautions, influenza antiviral timing, scarlet fever</p>
+        </button>
+        <button class="branch-card" onclick="startQuiz('part4')">
+          <h3>Part IV: Virology & Parasitology (HIV, HBV, Ebola, Malaria)</h3>
+          <p>Questions 92–132: HIV viral life cycle, serology interpretation, Ebola care, Plasmodium stages</p>
+        </button>
+      </div>
+      <button class="btn btn-secondary" onclick="showView('view-home')">Back to Home</button>
+    </section>
+
+    <!-- Interactive Quiz View -->
+    <section id="view-quiz" class="view">
+      <div class="quiz-header">
+        <span id="quiz-branch-tag">Quiz Branch</span>
+        <span id="quiz-counter">Question 1 of 132</span>
+      </div>
+
+      <div class="question-title" id="quiz-question-text">Question prompt</div>
+      <div class="options-list" id="quiz-options-container"></div>
+
+      <div class="explanation-box hidden" id="quiz-explanation-box">
+        <strong id="quiz-result-title">Rationalization</strong>
+        <span id="quiz-explanation-text"></span>
+      </div>
+
+      <div class="nav-bar">
+        <button class="btn btn-secondary" onclick="prevQuestion()" id="btn-prev">Previous</button>
+        <button class="btn" onclick="nextQuestion()" id="btn-next">Next</button>
+      </div>
+      <button class="btn btn-secondary" style="margin-top: 0.75rem;" onclick="showBranchSelect()">Change Branch</button>
+    </section>
+
+    <!-- Results Screen -->
+    <section id="view-results" class="view">
+      <div class="score-box">
+        <h2>Quiz Completed!</h2>
+        <div class="score-badge" id="results-score">0 / 0</div>
+        <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;" id="results-message"></p>
+        <button class="btn" onclick="showBranchSelect()">Select Another Branch</button>
+        <button class="btn btn-secondary" style="margin-top: 0.75rem;" onclick="showView('view-home')">Return to Home</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const quizData = [
+      // Part I: Questions 1–20
+      {
+        part: "part1",
+        q: "Which of the following is not a normal portal of exit for an infectious disease?",
+        options: ["A. Removal of blood", "B. Skin flakes and secretions", "C. All of these are normal exit portals", "D. Respiratory droplets", "E. Urogenital tract secretions"],
+        answer: 2,
+        exp: "Removal of blood (via insect bites or needles), skin, the urogenital tract, feces, and respiratory droplets from coughing/sneezing are all standard portals of exit used by pathogens to leave a host."
+      },
+      {
+        part: "part1",
+        q: "Which of the following is not an antiphagocytic factor?",
+        options: ["A. Adhering to the host", "B. Producing leukocidins", "C. Synthesizing a protective capsule", "D. Forming slime layers", "E. Intracellular survival within phagocytes"],
+        answer: 0,
+        exp: "Adherence factors assist in attachment, whereas capsules, leukocidins, and slime layers actively prevent engulfment or destruction by phagocytes."
+      },
+      {
+        part: "part1",
+        q: "Microbial hyaluronidase, coagulase, and streptokinase are examples of:",
+        options: ["A. Endotoxins", "B. Exoenzymes", "C. Antiphagocytic proteins", "D. Structural ribosomes"],
+        answer: 1,
+        exp: "These are exoenzymes secreted by pathogens to break down host barriers and evade defenses."
+      },
+      {
+        part: "part1",
+        q: "Virulence factors include all of the following except:",
+        options: ["A. Capsules", "B. Exoenzymes", "C. Endotoxins", "D. Ribosomes"],
+        answer: 3,
+        exp: "Ribosomes are primary cellular organelles required for protein translation, not specialized virulence determinants."
+      },
+      {
+        part: "part1",
+        q: "Hyaluronidase is a virulence factor found in:",
+        options: ["A. Clostridia", "B. Prions", "C. Protozoa", "D. Archaea"],
+        answer: 0,
+        exp: "Hyaluronidase is found in Clostridia, staphylococci, streptococci, and pneumococci."
+      },
+      {
+        part: "part1",
+        q: "Virulence differs from pathogenicity in that pathogenicity describes the ability of an organism to cause disease, whereas virulence describes the degree of pathogenicity as the disease develops.",
+        options: ["A. True", "B. False"],
+        answer: 0,
+        exp: "Pathogenicity is the qualitative capacity to cause disease, while virulence is the quantifiable degree of damage or invasiveness."
+      },
+      {
+        part: "part1",
+        q: "Select the characteristics exhibited by exotoxins, but not exhibited by endotoxins:",
+        options: [
+          "A. Require very small doses to cause toxic effects, have very specific targets, and are secreted from a living cell",
+          "B. Consist of lipopolysaccharide within the cell wall and cause systemic fever",
+          "C. Are non-specific in their tissue targets and stable against high heat",
+          "D. Are released solely upon lysis of gram-negative outer membranes"
+        ],
+        answer: 0,
+        exp: "Exotoxins are highly potent, targeted proteins secreted by living bacterial cells, unlike heat-stable endotoxic lipopolysaccharides."
+      },
+      {
+        part: "part1",
+        q: "Exotoxins:",
+        options: [
+          "A. Are integral lipopolysaccharide components of the gram-negative cell wall",
+          "B. Are secreted by pathogenic organisms",
+          "C. Are heat-stable glycolipids released only upon cell death",
+          "D. Produce systemic responses like fever regardless of the source"
+        ],
+        answer: 1,
+        exp: "Exotoxins are actively secreted proteins synthesized by living pathogenic bacteria."
+      },
+      {
+        part: "part1",
+        q: "_____ are toxins that are the lipopolysaccharide of the outer membrane of gram-negative cell walls.",
+        options: ["A. Exoenzymes", "B. Enterotoxins", "C. Endotoxins", "D. Leukocidins"],
+        answer: 2,
+        exp: "Endotoxins consist of Lipopolysaccharide (specifically Lipid A) anchored in the outer membrane of gram-negative organisms."
+      },
+      {
+        part: "part1",
+        q: "An endotoxin is:",
+        options: [
+          "A. Indicative of gram-negative organisms",
+          "B. An actively secreted polypeptide from living cells",
+          "C. A toxoid used routinely in childhood vaccines",
+          "D. Highly targeted to specific neural tissue"
+        ],
+        answer: 0,
+        exp: "Endotoxins are characteristic structural components of the outer membrane of gram-negative bacteria."
+      },
+      {
+        part: "part1",
+        q: "The term infection refers to:",
+        options: [
+          "A. Pathogens penetrating host defenses",
+          "B. Contact with sterile host tissue",
+          "C. Physical damage caused by mechanical trauma",
+          "D. Total clearance of microorganisms by the immune response"
+        ],
+        answer: 0,
+        exp: "Infection is defined as the entry, establishment, and penetration of host defenses by pathogenic microbes."
+      },
+      {
+        part: "part1",
+        q: "The minimum amount of microbes in the inoculating dose is the:",
+        options: ["A. Lethal dose 50 (LD50)", "B. Minimum bactericidal concentration", "C. Infectious dose", "D. Toxic threshold"],
+        answer: 2,
+        exp: "The infectious dose (ID) is the minimum quantity of microbes required to produce an infection."
+      },
+      {
+        part: "part1",
+        q: "In a comparison of two pathogens, organism A has an infectious dose of 200,000 organisms, whereas organism B has an infectious dose of 15 organisms. This means that organism A is much more pathogenic than organism B.",
+        options: ["A. True", "B. False"],
+        answer: 1,
+        exp: "False. Organism B requires far fewer cells to establish infection, making it significantly more virulent."
+      },
+      {
+        part: "part1",
+        q: "The cytokine storm seen in patients with severe COVID-19 is an example of a microbe causing disease in which way?",
+        options: [
+          "A. Secreting tissue-degrading exoenzymes",
+          "B. Causing an overreaction of the host immune system",
+          "C. Direct destruction of host erythrocytes",
+          "D. Blocking nutrient absorption in the intestine"
+        ],
+        answer: 1,
+        exp: "Cytokine storms represent severe indirect damage induced by an exaggerated, dysregulated host immune response."
+      },
+      {
+        part: "part1",
+        q: "The suffix -emia means:",
+        options: ["A. Inflammation", "B. Blood", "C. Infection", "D. Enlargement"],
+        answer: 1,
+        exp: "-emia refers to conditions of the blood (e.g., bacteremia, septicemia, viremia)."
+      },
+      {
+        part: "part1",
+        q: "Resident biota are found in/on the:",
+        options: [
+          "A. Nasal passages, skin, mouth, and large intestine",
+          "B. Blood and cerebrospinal fluid",
+          "C. Liver and spleen",
+          "D. Brain and spinal cord"
+        ],
+        answer: 0,
+        exp: "Resident microbiota naturally colonize mucosal and cutaneous interfaces exposed to the external environment."
+      },
+      {
+        part: "part1",
+        q: "Under certain circumstances, members of a person's resident biota can become opportunistic pathogens.",
+        options: ["A. True", "B. False"],
+        answer: 0,
+        exp: "True. Changes in host immunity, clearance of competing biota, or relocation to sterile sites permit commensals to cause disease."
+      },
+      {
+        part: "part1",
+        q: "Each of the following brings about inoculation of normal biota to a newborn except:",
+        options: ["A. Birth canal contact", "B. Breast feeding", "C. Contact with hospital staff", "D. Bottle feeding", "E. All of the choices are correct"],
+        answer: 4,
+        exp: "All listed exposures contribute directly to the initial seeding and colonization of infant flora."
+      },
+      {
+        part: "part1",
+        q: "Select the body sites that serve as portals of entry for microbes:",
+        options: [
+          "A. Urethra, mouth, vagina, nose, and skin",
+          "B. Liver, spleen, and gallbladder",
+          "C. Bone marrow and lymph nodes",
+          "D. Heart and pericardial sac"
+        ],
+        answer: 0,
+        exp: "Portals of entry consist of mucous membranes and cutaneous structures open directly or indirectly to the environment."
+      },
+      {
+        part: "part1",
+        q: "In an experiment to determine the infectious dose (ID50), if 100 out of 200 test mice die at a dose of 10^6 organisms, what is the ID50?",
+        options: ["A. 10^2 organisms", "B. 10^4 organisms", "C. 10^6 organisms", "D. 200 organisms"],
+        answer: 2,
+        exp: "The ID50 is the exact dose that affects 50% of the tested population (100 out of 200 mice = 10^6 organisms)."
+      },
+
+      // Part II: Questions 21–60
+      {
+        part: "part2",
+        q: "Leukopenia refers to:",
+        options: ["A. An increase in red blood cells", "B. An elevated white blood cell count", "C. A decrease in white blood cells (WBCs)", "D. Complete absence of platelets"],
+        answer: 2,
+        exp: "Leukopenia is an abnormally low white blood cell count in circulating blood."
+      },
+      {
+        part: "part2",
+        q: "Infection refers to:",
+        options: [
+          "A. The mere physical presence of harmless surface microbes",
+          "B. Immune system production of antibodies",
+          "C. Sterilization of open mucosal surfaces",
+          "D. Pathogens penetrating the host's defenses"
+        ],
+        answer: 3,
+        exp: "Infection is defined as the penetration of host defense barriers by pathogenic microbes."
+      },
+      {
+        part: "part2",
+        q: "Resident biota can become opportunistic pathogens under certain circumstances.",
+        options: ["A. True", "B. False"],
+        answer: 0,
+        exp: "True. Compromised barriers or immunosuppression can allow normal commensals to act as opportunists."
+      },
+      {
+        part: "part2",
+        q: "The degree of pathogenicity is determined by:",
+        options: ["A. Latency", "B. Incubation period", "C. Virulence", "D. Host body temperature"],
+        answer: 2,
+        exp: "Virulence defines the degree or intensity of pathogenicity of an infectious organism."
+      },
+      {
+        part: "part2",
+        q: "The greatest number of pathogens enter the body through the:",
+        options: ["A. Respiratory system", "B. Gastrointestinal tract", "C. Urogenital system", "D. Skin abrasions"],
+        answer: 0,
+        exp: "The respiratory tract is the most frequent portal of entry due to continuous inhalation of ambient air."
+      },
+      {
+        part: "part2",
+        q: "The suffix -emia refers to:",
+        options: ["A. Tissues", "B. Intestines", "C. Blood", "D. Secretions"],
+        answer: 2,
+        exp: "-emia is the medical suffix designating blood conditions."
+      },
+      {
+        part: "part2",
+        q: "Which of the following is NOT an antiphagocytic factor?",
+        options: ["A. Secretion of leukocidins", "B. Capsule production", "C. Intracellular survival mechanisms", "D. Slime layer secretion", "E. Adhering to the host"],
+        answer: 4,
+        exp: "Adherence aids physical fixation to tissues, whereas capsules and leukocidins directly defeat phagocytosis."
+      },
+      {
+        part: "part2",
+        q: "Septicemia means a pathogen is present and multiplying in the blood.",
+        options: ["A. True", "B. False"],
+        answer: 0,
+        exp: "True. Septicemia specifically refers to active microbial replication in the bloodstream."
+      },
+      {
+        part: "part2",
+        q: "Virulence factors are:",
+        options: [
+          "A. Host mechanisms that destroy invaders",
+          "B. Normal microbial flora that protect against pathogens",
+          "C. Nutrients required for microbial survival",
+          "D. Characteristics that enable a microorganism to establish infection and cause disease"
+        ],
+        answer: 3,
+        exp: "Virulence factors are microbial adaptations that promote colonisation, invasion, and damage to host tissue."
+      },
+      {
+        part: "part2",
+        q: "Infection occurs when:",
+        options: [
+          "A. Pathogens colonize environmental surfaces",
+          "B. Pathogens enter and multiply in body tissues",
+          "C. Phagocytic leukocytes clean cellular debris",
+          "D. An individual is vaccinated"
+        ],
+        answer: 1,
+        exp: "Infection requires successful entry and tissue multiplication by the organism."
+      },
+      {
+        part: "part2",
+        q: "Which is NOT used to describe resident biota?",
+        options: ["A. Normal flora", "B. Indigenous microbiota", "C. Pathogenic biota", "D. Commensals"],
+        answer: 2,
+        exp: "Resident biota are not categorized as pathogenic biota under normal physiological conditions."
+      },
+      {
+        part: "part2",
+        q: "Resident biota can be found in the:",
+        options: [
+          "A. Brain, heart, and kidney",
+          "B. Blood, lymph, and bone",
+          "C. Mouth, large intestine, nasal passages, and skin",
+          "D. Gallbladder, spinal fluid, and muscles"
+        ],
+        answer: 2,
+        exp: "Internal organs and fluid compartments are sterile; resident flora inhabit superficial and exposed mucosal surfaces."
+      },
+      {
+        part: "part2",
+        q: "All infectious diseases are caused by microorganisms or their products.",
+        options: ["A. True", "B. False"],
+        answer: 0,
+        exp: "True. Infectious diseases are directly initiated by viable microbes or their active toxins."
+      },
+      {
+        part: "part2",
+        q: "Which of the following pairs is mismatched?",
+        options: [
+          "A. Mucinase – digests protective mucous coating",
+          "B. Coagulase – dissolve fibrin clots",
+          "C. Streptokinase – dissolves blood clots",
+          "D. Keratinase – digests primary skin protein"
+        ],
+        answer: 1,
+        exp: "Coagulase catalyzes fibrin clot formation; kinases dissolve fibrin clots."
+      },
+      {
+        part: "part2",
+        q: "Opportunistic pathogens cause disease in:",
+        options: ["A. Healthy individuals with normal immunity", "B. Compromised individuals", "C. Vaccinated hosts exclusively", "D. Individuals lacking all resident biota"],
+        answer: 1,
+        exp: "Opportunists exploit debilitated host immune systems or altered natural microenvironments."
+      },
+      {
+        part: "part2",
+        q: "Bacterial enzymes that dissolve fibrin clots are called:",
+        options: ["A. Hyaluronidases", "B. Kinases", "C. Coagulases", "D. Mucinases"],
+        answer: 1,
+        exp: "Kinases (such as streptokinase and staphylokinase) dissolve fibrin clots to facilitate pathogen dissemination."
+      },
+      {
+        part: "part2",
+        q: "Microbial hyaluronidase, coagulase, and streptokinase are:",
+        options: ["A. Endotoxins", "B. Exoenzymes", "C. Structural polysaccharides", "D. Ribosomes"],
+        answer: 1,
+        exp: "These molecules are extracellular enzymes (exoenzymes) synthesized by bacteria."
+      },
+      {
+        part: "part2",
+        q: "Candida and Pseudomonas are examples of:",
+        options: ["A. Opportunistic pathogens", "B. True pathogens", "C. Obligate intracellular viruses", "D. Acellular particles"],
+        answer: 0,
+        exp: "Candida and Pseudomonas typically cause disease when host defenses or normal barriers are compromised."
+      },
+      {
+        part: "part2",
+        q: "Microbes that normally live in the body but can cause disease under certain conditions are called:",
+        options: ["A. True pathogens", "B. Opportunistic pathogens", "C. Vector-borne pathogens", "D. Latent viruses"],
+        answer: 1,
+        exp: "They are opportunistic pathogens that exploit host impairment."
+      },
+      {
+        part: "part2",
+        q: "Pathogenic microbes that cause disease in healthy people are called:",
+        options: ["A. Opportunistic pathogens", "B. Symbionts", "C. Commensals", "D. Microaerophiles", "E. True pathogens"],
+        answer: 4,
+        exp: "True (primary) pathogens possess intrinsic virulence capable of causing disease in healthy, immunocompetent hosts."
+      },
+      {
+        part: "part2",
+        q: "Enterotoxins are:",
+        options: [
+          "A. Lipopolysaccharides localized in outer membranes",
+          "B. Enzymes that degrade hyaluronic acid",
+          "C. Non-protein components of viral capsids",
+          "D. Proteins, virulence factors, exotoxins, and toxins targeting the intestines"
+        ],
+        answer: 3,
+        exp: "Enterotoxins are protein exotoxins that target gastrointestinal epithelial cells."
+      },
+      {
+        part: "part2",
+        q: "Virulence factors include all EXCEPT:",
+        options: ["A. Ribosomes", "B. Exotoxins", "C. Capsules", "D. Endotoxins", "E. Exoenzymes"],
+        answer: 0,
+        exp: "Ribosomes are standard intracellular protein-synthesis machinery, not virulence determinants."
+      },
+      {
+        part: "part2",
+        q: "Microbial antagonism benefits the host when:",
+        options: [
+          "A. Pathogens exchange plasmids via conjugation",
+          "B. Microbial cells undergo rapid mutation",
+          "C. The immune response triggers a cytokine storm",
+          "D. Opportunists invade damaged skin",
+          "E. Normal microbiota prevent pathogens from colonizing or establishing infection"
+        ],
+        answer: 4,
+        exp: "Normal biota outcompete potential invaders for binding sites and nutrients, preventing colonization."
+      },
+      {
+        part: "part2",
+        q: "Which is NOT a normal portal of exit?",
+        options: ["A. Respiratory droplets", "B. Feces", "C. Skin", "D. Urogenital tract secretions"],
+        answer: 2,
+        exp: "In this exam series context, intact skin alone without secretions/lesions is contrasted against standard exit routes."
+      },
+      {
+        part: "part2",
+        q: "Which is NOT a factor that weakens host defenses?",
+        options: ["A. Old age and extreme youth", "B. A strong, healthy body", "C. Physical and mental stress", "D. Chemotherapy and immunosuppressive drugs"],
+        answer: 1,
+        exp: "A robust, healthy physiology sustains immune competence."
+      },
+      {
+        part: "part2",
+        q: "The white blood cell process that attempts to destroy microbes is:",
+        options: ["A. Coagulation", "B. Agglutination", "C. Pinocytosis", "D. Fibrinolysis", "E. Phagocytosis"],
+        answer: 4,
+        exp: "Phagocytosis involves the engulfment and intracellular destruction of foreign microbes by leukocytes."
+      },
+      {
+        part: "part2",
+        q: "In a comparison of two pathogens, organism A has an infectious dose of 200,000 organisms, whereas organism B has an infectious dose of 15 organisms. This means that organism A is much more pathogenic than organism B.",
+        options: ["A. True", "B. False"],
+        answer: 1,
+        exp: "False. Organism B requires a smaller dose, indicating much higher virulence."
+      },
+      {
+        part: "part2",
+        q: "Select the body sites that serve as portals of entry for microbes:",
+        options: [
+          "A. Options A, B, C, E, and F – Nose, skin, mouth, urethra, and vagina",
+          "B. Options B and D – Skin and spleen",
+          "C. Options D, E, and F – Spleen, urethra, and vagina",
+          "D. All listed options"
+        ],
+        answer: 0,
+        exp: "Internal organs such as the spleen are sterile, whereas mucous membranes and skin serve as entry portals."
+      },
+      {
+        part: "part2",
+        q: "In an experiment involving 200 mice, determine the infectious dose at which 50% of the mice develop disease (ID50): [Dose 100 yields 100 living / 100 dead]",
+        options: ["A. Dose = 190", "B. Dose = 150", "C. Dose = 100", "D. Dose = 0"],
+        answer: 2,
+        exp: "At dose 100, exactly 100 out of 200 mice (50%) develop disease."
+      },
+      {
+        part: "part2",
+        q: "The human body typically begins to be colonized by its normal biota:",
+        options: ["A. In the second trimester of gestation", "B. At puberty", "C. During and immediately after birth", "D. Exclusively upon ingestion of solid foods"],
+        answer: 2,
+        exp: "Colonization initiates upon passage through the birth canal and during immediate postnatal contact."
+      },
+      {
+        part: "part2",
+        q: "An infectious agent that originates from outside the body is called:",
+        options: ["A. Endogenous", "B. Opportunistic", "C. Commensal", "D. Exogenous"],
+        answer: 3,
+        exp: "Exogenous pathogens originate from sources outside the patient's own body."
+      },
+      {
+        part: "part2",
+        q: "Exotoxins are:",
+        options: ["A. Lipopolysaccharides", "B. Phospholipids", "C. Peptidoglycan fragments", "D. Proteins"],
+        answer: 3,
+        exp: "Exotoxins are soluble protein molecules synthesized and exported by bacteria."
+      },
+      {
+        part: "part2",
+        q: "Toxins that are the lipopolysaccharide of the outer membrane of Gram-negative cell walls are:",
+        options: ["A. Exoenzymes", "B. Neurotoxins", "C. Endotoxins", "D. Superantigens"],
+        answer: 2,
+        exp: "Endotoxins correspond specifically to the lipopolysaccharide outer layer of Gram-negative envelopes."
+      },
+      {
+        part: "part2",
+        q: "Most of the skin's resident biota are found in the uppermost, superficial layers of the epidermis.",
+        options: ["A. True", "B. False"],
+        answer: 0,
+        exp: "True. The dead stratum corneum and superficial follicular orifices house the vast majority of skin flora."
+      },
+      {
+        part: "part2",
+        q: "The skin's normal biota commonly include bacteria, fungi, and some viruses, except:",
+        options: ["A. Yeasts", "B. Protozoans", "C. Gram-positive bacteria", "D. Nonpathogenic viruses"],
+        answer: 1,
+        exp: "Protozoa are not typical members of the normal human cutaneous flora."
+      },
+      {
+        part: "part2",
+        q: "Select characteristics exhibited by exotoxins, but not exhibited by endotoxin:",
+        options: [
+          "A. Options A, C, and D – Require very small doses, are secreted from living cells, and have very specific targets",
+          "B. Options B and C only",
+          "C. Option B only",
+          "D. All listed options"
+        ],
+        answer: 0,
+        exp: "Exotoxins are high-potency, specific proteins secreted by living cells."
+      },
+      {
+        part: "part2",
+        q: "Which of the following is NOT a method of adhesion?",
+        options: ["A. Fimbriae", "B. Capsule / slime layer", "C. Cilia", "D. Viral spikes", "E. Surface proteins"],
+        answer: 2,
+        exp: "Cilia are motile eukaryotic host structures, not bacterial adhesion apparatuses."
+      },
+      {
+        part: "part2",
+        q: "The virulence factors of a pathogen are established by how strong or weak a patient's body defenses are at the time of infection.",
+        options: ["A. True", "B. False"],
+        answer: 1,
+        exp: "False. Virulence factors are genetic and structural features of the pathogen; host defense determines patient susceptibility."
+      },
+      {
+        part: "part2",
+        q: "Mucinase has the greatest effect on the:",
+        options: ["A. Skeletal system", "B. Cardiovascular system", "C. Nervous system", "D. Endocrine system", "E. Respiratory system"],
+        answer: 4,
+        exp: "Mucinase digests the protective mucous layer defending mucosal tracts such as the respiratory system."
+      },
+      {
+        part: "part2",
+        q: "Select all of the sites where it was previously known that normal microbiota existed in large populations in/on the human body:",
+        options: [
+          "A. Options A, B, and G (Brain, Blood, Bone)",
+          "B. Options C, D, E, F, and H – Large intestine, skin, throat, mouth, and vagina",
+          "C. Options D, F, and G only",
+          "D. All listed choices"
+        ],
+        answer: 1,
+        exp: "These exposed mucocutaneous sites carry rich resident microbial populations."
+      },
+
+      // Part III: Questions 61–91
+      {
+        part: "part3",
+        q: "HOW WILL YOU PASS THIS COURSE?",
+        options: ["A. Attend all lectures and study regularly", "B. Complete all practice quizzes and assignments", "C. Seek help when needed and master the objectives", "D. A, B, C"],
+        answer: 3,
+        exp: "All three active study approaches combined ensure success in the course."
+      },
+      {
+        part: "part3",
+        q: "What is the main purpose of treating latent tuberculosis infection?",
+        options: [
+          "A. To treat active cavitary lung lesions immediately",
+          "B. To induce lifelong active immunity against atypical mycobacteria",
+          "C. To reduce the risk of progression to active TB disease",
+          "D. To prevent the transmission of latent organisms to household contacts"
+        ],
+        answer: 2,
+        exp: "Treating LTBI eradicates dormant bacilli to prevent subsequent reactivation into contagious, active TB."
+      },
+      {
+        part: "part3",
+        q: "Which presentation should raise suspicion for active pulmonary tuberculosis?",
+        options: [
+          "A. A prolonged cough with weight loss and night sweats",
+          "B. Sudden onset high fever and inspiratory stridor lasting 2 hours",
+          "C. Sore throat accompanied by a sandpaper rash",
+          "D. Acute coryza, sneezing, and watery ocular discharge"
+        ],
+        answer: 0,
+        exp: "Chronic cough (>3 weeks), hemoptysis, unexplained weight loss, fever, and drenching night sweats are classic signs of active pulmonary TB."
+      },
+      {
+        part: "part3",
+        q: "Which medication is an antiviral used to treat influenza?",
+        options: ["A. Oseltamivir", "B. Amoxicillin", "C. Isoniazid", "D. Acyclovir"],
+        answer: 0,
+        exp: "Oseltamivir (Tamiflu) is a neuraminidase inhibitor directed against influenza A and B."
+      },
+      {
+        part: "part3",
+        q: "Which organism causes tuberculosis?",
+        options: ["A. Streptococcus pneumoniae", "B. Mycobacterium tuberculosis", "C. Haemophilus influenzae", "D. Mycoplasma pneumoniae"],
+        answer: 1,
+        exp: "Mycobacterium tuberculosis, an acid-fast bacillus, is the causative pathogen of TB."
+      },
+      {
+        part: "part3",
+        q: "An adult with influenza develops difficulty breathing and persistent chest pressure. What is the most appropriate action?",
+        options: [
+          "A. Drink warm fluids and continue bed rest",
+          "B. Take over-the-counter antitussives and wait 48 hours",
+          "C. Discontinue oral hydration",
+          "D. Seek urgent medical evaluation"
+        ],
+        answer: 3,
+        exp: "Dyspnea and chest pressure are red-flag warning symptoms pointing toward severe complications like secondary pneumonia."
+      },
+      {
+        part: "part3",
+        q: "Which statement correctly describes latent tuberculosis infection?",
+        options: [
+          "A. The patient has a productive cough and is highly contagious to others",
+          "B. TB bacteria are present, but the person has no TB symptoms and cannot spread the infection",
+          "C. Chest radiographs reveal extensive bilateral apical cavitation",
+          "D. Acid-fast bacilli are readily recovered in active sputum cultures"
+        ],
+        answer: 1,
+        exp: "Patients with LTBI harbor contained, dormant bacilli; they are asymptomatic and cannot transmit the organism."
+      },
+      {
+        part: "part3",
+        q: "A patient has a positive TB blood test, no symptoms, and a normal chest radiograph. Evaluation finds no evidence of active TB disease. Which condition best fits these findings?",
+        options: ["A. Primary multidrug-resistant tuberculosis", "B. Extrapulmonary active tuberculosis", "C. Latent tuberculosis infection", "D. Atypical mycobacterial pneumonia"],
+        answer: 2,
+        exp: "A positive immunologic test combined with clear lungs and no symptoms confirms latent TB."
+      },
+      {
+        part: "part3",
+        q: "A child receiving appropriate antibiotics for strep throat has been fever-free and has completed 24 hours of treatment. Which advice is most appropriate?",
+        options: [
+          "A. The child must remain isolated for at least 10 full days",
+          "B. Discontinue the antibiotic course since symptoms have cleared",
+          "C. Switch immediately to a broad-spectrum antiviral",
+          "D. The child may generally return to school if well enough and school requirements are met"
+        ],
+        answer: 3,
+        exp: "After 24 hours of effective antibiotic therapy and resolution of fever, transmission risk drops dramatically."
+      },
+      {
+        part: "part3",
+        q: "Which statement about fever in influenza is correct?",
+        options: [
+          "A. Every individual with influenza experiences high-grade fever",
+          "B. Fever never lasts longer than 6 hours",
+          "C. Influenza is clinically excluded if fever is absent",
+          "D. Some people with influenza do not develop fever"
+        ],
+        answer: 3,
+        exp: "Not all patients with influenza develop fever, especially elderly or immunocompromised individuals."
+      },
+      {
+        part: "part3",
+        q: "A patient has confirmed strep throat and no penicillin allergy. Which medication is a recommended first-line treatment?",
+        options: ["A. Ciprofloxacin", "B. Vancomycin", "C. Doxycycline", "D. Amoxicillin"],
+        answer: 3,
+        exp: "Amoxicillin or penicillin V remains the standard first-line antimicrobial for Group A Strep."
+      },
+      {
+        part: "part3",
+        q: "Which finding is most consistent with strep throat?",
+        options: [
+          "A. Diffuse wheezing and copious clear rhinorrhea",
+          "B. Paroxysmal nocturnal coughing fits with vomiting",
+          "C. Sudden sore throat, painful swallowing, and tender anterior cervical lymph nodes",
+          "D. Dry cough, conjunctivitis, and hoarseness"
+        ],
+        answer: 2,
+        exp: "Abrupt sore throat, tonsillar exudates, and tender anterior cervical lymphadenopathy are hallmark Centor signs."
+      },
+      {
+        part: "part3",
+        q: "Which organism most commonly causes group A streptococcal pharyngitis?",
+        options: ["A. Streptococcus agalactiae", "B. Streptococcus pneumoniae", "C. Streptococcus pyogenes", "D. Staphylococcus aureus"],
+        answer: 2,
+        exp: "Streptococcus pyogenes is also known as Group A Streptococcus (GAS)."
+      },
+      {
+        part: "part3",
+        q: "In which age group is strep throat most common?",
+        options: ["A. Infants under 1 year of age", "B. Children aged 5–15 years", "C. Adults aged 30–45 years", "D. Geriatric adults aged 75 and older"],
+        answer: 1,
+        exp: "Group A streptococcal pharyngitis peaks in school-aged children aged 5–15."
+      },
+      {
+        part: "part3",
+        q: "A patient receiving treatment for active TB feels better and asks whether treatment can be stopped. Which response is most appropriate?",
+        options: [
+          "A. Yes, feeling better indicates complete microbial eradication",
+          "B. Yes, stop the medication to minimize adverse drug effects",
+          "C. Complete the prescribed treatment; stopping early can contribute to treatment failure and drug resistance",
+          "D. Stop the medication and switch to high-dose vitamin supplements"
+        ],
+        answer: 2,
+        exp: "Premature cessation of anti-TB drugs selects for multidrug-resistant strains and prompts relapse."
+      },
+      {
+        part: "part3",
+        q: "Which symptom more strongly suggests viral pharyngitis than classic strep throat?",
+        options: ["A. Petechiae on the soft palate", "B. Tender anterior cervical adenopathy", "C. Cough", "D. High abrupt fever"],
+        answer: 2,
+        exp: "The presence of prominent cough, rhinorrhea, and conjunctivitis strongly points to a viral etiology."
+      },
+      {
+        part: "part3",
+        q: "A hospitalized patient is suspected of having infectious pulmonary tuberculosis. Which transmission-based precautions are indicated?",
+        options: ["A. Standard precautions alone", "B. Droplet precautions", "C. Contact precautions", "D. Airborne precautions"],
+        answer: 3,
+        exp: "Airborne precautions (negative-pressure isolation room) are strictly required for suspected pulmonary TB."
+      },
+      {
+        part: "part3",
+        q: "Appropriate antibiotic treatment of confirmed strep throat reduces the risk of which complication?",
+        options: ["A. Multiple sclerosis", "B. Type 1 diabetes mellitus", "C. Rheumatoid arthritis", "D. Acute rheumatic fever"],
+        answer: 3,
+        exp: "Early antibiotic therapy against S. pyogenes prevents cross-reactive autoimmune acute rheumatic fever."
+      },
+      {
+        part: "part3",
+        q: "Which respiratory protection should a healthcare worker use when entering the room of a patient with suspected infectious pulmonary TB?",
+        options: [
+          "A. A fit-tested N95 respirator or an appropriate higher-level respirator",
+          "B. A loose-fitting standard surgical mask",
+          "C. A fabric dust mask",
+          "D. A face shield without a mask"
+        ],
+        answer: 0,
+        exp: "Healthcare personnel must wear a fit-tested N95 or PAPR to filter airborne droplet nuclei."
+      },
+      {
+        part: "part3",
+        q: "How is infectious pulmonary tuberculosis primarily transmitted?",
+        options: [
+          "A. Ingestion of contaminated food or water",
+          "B. Direct skin contact with intact skin",
+          "C. Contact with contaminated environmental fomites",
+          "D. Through inhalation of airborne particles containing TB bacteria"
+        ],
+        answer: 3,
+        exp: "TB is spread through aerosolized droplet nuclei produced when an infected individual coughs or speaks."
+      },
+      {
+        part: "part3",
+        q: "A hospitalized patient has severe influenza, but symptoms began four days ago. Which statement is most appropriate?",
+        options: [
+          "A. Antivirals are contraindicated after 48 hours in all patients",
+          "B. Antiviral treatment may still be beneficial despite the delayed presentation",
+          "C. Antibiotics should immediately replace antivirals",
+          "D. Treatment will have no effect on viral replication or clinical course"
+        ],
+        answer: 1,
+        exp: "In severe or hospitalized influenza patients, antiviral treatment can still reduce complications beyond the 48-hour window."
+      },
+      {
+        part: "part3",
+        q: "A child with group A strep pharyngitis develops a fine rash that feels like sandpaper. Which associated condition is most likely?",
+        options: ["A. Scarlet fever", "B. Kawasaki disease", "C. Measles", "D. Rubella"],
+        answer: 0,
+        exp: "Scarlet fever is caused by Streptococcus pyogenes strains carrying erythrogenic exotoxin."
+      },
+      {
+        part: "part3",
+        q: "Which organism causes influenza?",
+        options: ["A. Haemophilus influenzae", "B. Influenza virus", "C. Respiratory syncytial virus", "D. Adenovirus"],
+        answer: 1,
+        exp: "Influenza is caused by the Influenza virus (an Orthomyxovirus), not the bacterium H. influenzae."
+      },
+      {
+        part: "part3",
+        q: "A student suddenly develops fever, chills, headache, muscle aches, and a dry cough. Which illness best fits this presentation?",
+        options: ["A. Infectious mononucleosis", "B. Influenza", "C. Group A strep pharyngitis", "D. Common cold (rhinovirus)"],
+        answer: 1,
+        exp: "Rapid, sudden onset of systemic myalgia, fever, chills, and dry cough is pathognomonic for influenza."
+      },
+      {
+        part: "part3",
+        q: "Which patient has an increased risk of serious influenza complications?",
+        options: ["A. A healthy 22-year-old athlete", "B. A healthy 35-year-old teacher", "C. A 70-year-old with chronic heart disease", "D. A healthy 16-year-old high school student"],
+        answer: 2,
+        exp: "Older adults (≥65) and individuals with chronic cardiopulmonary disorders face elevated risk of severe influenza."
+      },
+      {
+        part: "part3",
+        q: "Which measure provides the best specific protection against seasonal influenza?",
+        options: [
+          "A. Prophylactic broad-spectrum antibiotics",
+          "B. Daily high-dose vitamin C supplementation",
+          "C. Receiving the recommended influenza vaccine each year",
+          "D. Wearing gloves in public places"
+        ],
+        answer: 2,
+        exp: "Annual influenza vaccination is the primary, evidence-based preventive strategy against seasonal influenza."
+      },
+      {
+        part: "part3",
+        q: "Which patient with latent TB infection has an increased risk of developing active TB disease?",
+        options: ["A. A person with mild seasonal allergic rhinitis", "B. A person who exercises daily", "C. A person with well-controlled hypertension", "D. A person with HIV infection"],
+        answer: 3,
+        exp: "HIV infection degrades CD4 T cells, severely compromising granuloma integrity and accelerating reactivation to active TB."
+      },
+      {
+        part: "part3",
+        q: "Which condition is a serious complication of influenza?",
+        options: ["A. Peptic ulcer disease", "B. Deep vein thrombosis", "C. Pneumonia", "D. Osteomyelitis"],
+        answer: 2,
+        exp: "Secondary bacterial pneumonia (or primary viral pneumonia) is the leading life-threatening complication of influenza."
+      },
+      {
+        part: "part3",
+        q: "An 8-year-old has symptoms suggestive of strep throat, but the rapid antigen detection test is negative. What is the recommended next step?",
+        options: ["A. Obtain a confirmatory throat culture", "B. Reassure the parents that strep is definitively ruled out", "C. Prescribe prophylactic amoxicillin immediately", "D. Order a chest radiograph"],
+        answer: 0,
+        exp: "In children, negative rapid strep tests should be backed up with a throat culture to prevent missed diagnoses and acute rheumatic fever."
+      },
+      {
+        part: "part3",
+        q: "When does antiviral treatment generally provide the greatest benefit for uncomplicated influenza?",
+        options: [
+          "A. After symptoms have persisted for at least 5 days",
+          "B. At the conclusion of the febrile period",
+          "C. When started within the first two days of symptoms",
+          "D. Only when secondary bacterial pneumonia has developed"
+        ],
+        answer: 2,
+        exp: "Antivirals yield maximal efficacy in curtailing disease duration when initiated within 48 hours of symptom onset."
+      },
+      {
+        part: "part3",
+        q: "Which practice helps reduce the spread of strep throat within a household?",
+        options: [
+          "A. Sharing utensils to develop natural immunity",
+          "B. Administering prophylactic corticosteroids",
+          "C. Practicing hand hygiene and covering coughs and sneezes",
+          "D. Keeping windows tightly closed at all times"
+        ],
+        answer: 2,
+        exp: "Standard respiratory etiquette and rigorous handwashing prevent transfer of infectious droplets."
+      },
+
+      // Part IV: Questions 92–132
+      {
+        part: "part4",
+        q: "What occurs during the fusion stage of HIV replication?",
+        options: [
+          "A. Reverse transcription converts viral RNA into double-stranded DNA",
+          "B. The viral envelope merges with the host cell membrane",
+          "C. Viral integrase inserts cDNA into host chromosomes",
+          "D. Protease cleaves nascent polypeptide chains"
+        ],
+        answer: 1,
+        exp: "During fusion, the viral lipid envelope fuses with the host CD4 membrane, allowing the capsid to enter the cytoplasm."
+      },
+      {
+        part: "part4",
+        q: "What is a major goal of antiretroviral therapy in a person with HIV?",
+        options: [
+          "A. Total elimination of integrated proviruses within 24 hours",
+          "B. Immediate eradication of dormant reservoirs",
+          "C. Replacement of CD4 lymphocytes with synthetic equivalents",
+          "D. Suppress viral replication and preserve immune function"
+        ],
+        answer: 3,
+        exp: "ART aims to suppress HIV viral replication to undetectable levels and preserve/restore CD4 cell counts."
+      },
+      {
+        part: "part4",
+        q: "Which laboratory marker generally indicates current hepatitis B infection?",
+        options: ["A. Anti-HBs", "B. Anti-HBc IgG", "C. Anti-HBe", "D. Hepatitis B surface antigen (HBsAg)"],
+        answer: 3,
+        exp: "The presence of HBsAg in serum indicates an ongoing (acute or chronic) Hepatitis B infection."
+      },
+      {
+        part: "part4",
+        q: "A drug prevents HIV DNA from becoming incorporated into the host cell's DNA. Which viral enzyme does it inhibit?",
+        options: ["A. Reverse transcriptase", "B. Protease", "C. Neuraminidase", "D. Integrase"],
+        answer: 3,
+        exp: "Integrase strand transfer inhibitors (INSTIs) block the integrase enzyme from inserting proviral DNA into host chromosomes."
+      },
+      {
+        part: "part4",
+        q: "A nurse must clean vomit from a patient with suspected Ebola. Which action best reduces exposure risk?",
+        options: [
+          "A. Clean the area with water and bare hands, then wash afterward",
+          "B. Use appropriate protective equipment and follow trained infection-control procedures",
+          "C. Cover the spill with dry towels and wait 24 hours",
+          "D. Open all windows without wearing personal protective equipment"
+        ],
+        answer: 1,
+        exp: "Rigorous PPE (gloves, fluid-resistant gown/suit, eye protection, respirator) and strict infection protocols are mandatory."
+      },
+      {
+        part: "part4",
+        q: "Why can traditional burial practices contribute to Ebola transmission?",
+        options: [
+          "A. Burial sites generate airborne aerosol clouds miles away",
+          "B. Direct contact with an infected deceased person's body can expose mourners to the virus",
+          "C. Soil microbes transform the virus into a spore form",
+          "D. Ebola particles replicate in the surrounding groundwater"
+        ],
+        answer: 1,
+        exp: "Deceased bodies harbor exceptionally high viral loads; washing or direct touching facilitates cutaneous/mucosal transmission."
+      },
+      {
+        part: "part4",
+        q: "What occurs during the assembly stage of HIV replication?",
+        options: [
+          "A. Viral gp120 attaches to the CD4 receptor",
+          "B. Viral DNA enters the nucleus and joins host DNA",
+          "C. Viral RNA and proteins come together to form immature virus particles",
+          "D. Mature viral capsids dissociate into monomeric peptides"
+        ],
+        answer: 2,
+        exp: "Assembly involves the packaging of viral RNA genomes and polyproteins beneath the host plasma membrane."
+      },
+      {
+        part: "part4",
+        q: "Which statement about bleeding in Ebola disease is correct?",
+        options: [
+          "A. Bleeding may occur, but it is not present in every patient",
+          "B. Massive external hemorrhage is mandatory for diagnosis",
+          "C. Bleeding occurs exclusively from oral mucus membranes",
+          "D. Hemorrhage only occurs after full clinical recovery"
+        ],
+        answer: 0,
+        exp: "Overt bleeding/hemorrhage is a severe manifestation seen in some cases, but not every infected patient bleeds."
+      },
+      {
+        part: "part4",
+        q: "A student who completed hepatitis B vaccination has positive anti-HBs, negative HBsAg, and negative total anti-HBc results. What is the best interpretation?",
+        options: ["A. Acute hepatitis B infection", "B. Chronic active hepatitis B infection", "C. Immunity resulting from vaccination", "D. Susceptibility to hepatitis B infection"],
+        answer: 2,
+        exp: "Anti-HBs alone without anti-HBc confirms vaccine-induced active immunity (no exposure to natural core antigen)."
+      },
+      {
+        part: "part4",
+        q: "Which person has the greatest likelihood of developing chronic hepatitis B after acquiring the infection?",
+        options: [
+          "A. An adult acquiring infection through occupational needle stick",
+          "B. A healthy 25-year-old acquiring infection through sexual contact",
+          "C. A newborn infected during childbirth",
+          "D. A 40-year-old with normal baseline liver enzymes"
+        ],
+        answer: 2,
+        exp: "Perinatal vertical transmission carries an ~90% risk of chronicity due to immature neonatal immune responses."
+      },
+      {
+        part: "part4",
+        q: "Which statement best describes the relationship between HIV infection and AIDS?",
+        options: [
+          "A. HIV and AIDS are two distinct unrelated viral diseases",
+          "B. AIDS is the most advanced stage of HIV infection",
+          "C. HIV is caused by an advanced stage of AIDS",
+          "D. AIDS develops immediately within 24 hours after HIV exposure"
+        ],
+        answer: 1,
+        exp: "AIDS is stage 3 (the terminal, most advanced clinical stage) of HIV disease."
+      },
+      {
+        part: "part4",
+        q: "A person with HIV has a CD4 count of 320 cells/mm^3 and develops an AIDS-defining opportunistic illness. Which statement is correct?",
+        options: [
+          "A. The patient cannot be diagnosed with AIDS because the CD4 count is above 200",
+          "B. AIDS can only be diagnosed if viral load exceeds 1,000,000 copies/mL",
+          "C. The AIDS-defining illness can establish an AIDS diagnosis despite the CD4 count",
+          "D. Opportunistic illnesses reverse an existing diagnosis of AIDS"
+        ],
+        answer: 2,
+        exp: "The occurrence of an AIDS-defining clinical condition (e.g., PCP, esophageal candidiasis) confirms AIDS regardless of CD4 count."
+      },
+      {
+        part: "part4",
+        q: "Which event contributes to the fever episodes associated with the blood stage of malaria?",
+        options: [
+          "A. Rupture of infected red blood cells and the resulting inflammatory response",
+          "B. Direct lysis of hepatocytes during the primary liver stage",
+          "C. Injection of mosquito saliva into cutaneous capillaries",
+          "D. Fusion of gametocytes inside the human circulatory system"
+        ],
+        answer: 0,
+        exp: "Synchronized schizont rupture and lysis of RBCs release pyrogens and waste products that induce intermittent paroxysms."
+      },
+      {
+        part: "part4",
+        q: "Malaria is caused by parasites belonging to which genus?",
+        options: ["A. Trypanosoma", "B. Leishmania", "C. Entamoeba", "D. Plasmodium"],
+        answer: 3,
+        exp: "Malaria is caused by protozoan parasites of the genus Plasmodium (e.g., P. falciparum, P. vivax)."
+      },
+      {
+        part: "part4",
+        q: "In an adult with confirmed HIV infection, which CD4 count meets the count-based criterion for AIDS?",
+        options: ["A. 800 cells/mm^3", "B. 500 cells/mm^3", "C. 180 cells/mm^3", "D. 350 cells/mm^3"],
+        answer: 2,
+        exp: "A CD4 T lymphocyte count below 200 cells/mm^3 fulfills the surveillance definition of AIDS."
+      },
+      {
+        part: "part4",
+        q: "Which mosquito transmits malaria parasites to humans?",
+        options: ["A. Male Aedes aegypti", "B. Female Culex pipiens", "C. Male Anopheles gambiae", "D. An infected female Anopheles mosquito"],
+        answer: 3,
+        exp: "Only female Anopheles mosquitoes take blood meals required for egg production and transmit Plasmodium."
+      },
+      {
+        part: "part4",
+        q: "Which parasite stage invades red blood cells after being released from the liver?",
+        options: ["A. Merozoite", "B. Sporozoite", "C. Ookinete", "D. Hypnozoite"],
+        answer: 0,
+        exp: "Merozoites emerge from hepatic schizonts and target circulating erythrocytes to initiate the erythrocytic cycle."
+      },
+      {
+        part: "part4",
+        q: "Ebola disease is caused by which type of infectious agent?",
+        options: ["A. A bacterium", "B. A protozoan", "C. A virus", "D. A fungus"],
+        answer: 2,
+        exp: "Ebola is caused by the Ebola virus, a member of the Filoviridae family."
+      },
+      {
+        part: "part4",
+        q: "A researcher observes newly formed HIV particles pushing outward through the host cell membrane. Which stage is being observed?",
+        options: ["A. Integration", "B. Reverse transcription", "C. Fusion", "D. Budding"],
+        answer: 3,
+        exp: "Budding is the step where immature virions protrude through and acquire their envelope from the host lipid bilayer."
+      },
+      {
+        part: "part4",
+        q: "A patient has negative HBsAg, positive anti-HBs, and positive total anti-HBc results. Which interpretation is most appropriate?",
+        options: [
+          "A. Chronic hepatitis B infection",
+          "B. Recovery from previous natural hepatitis B infection",
+          "C. Successful immunization without prior natural infection",
+          "D. Acute fulminant hepatitis B infection"
+        ],
+        answer: 1,
+        exp: "The presence of core antibody (anti-HBc) confirms prior natural viral infection, and anti-HBs indicates complete recovery/immunity."
+      },
+      {
+        part: "part4",
+        q: "A patient has recurrent Plasmodium vivax malaria months after the initial illness, without a new mosquito exposure. Which stage can explain this relapse?",
+        options: [
+          "A. A dormant hypnozoite remaining in the liver",
+          "B. Active gametocytes in peripheral circulation",
+          "C. Trophozoites sequestered in renal tubules",
+          "D. Sporozoites persisting in skin dermis"
+        ],
+        answer: 0,
+        exp: "P. vivax and P. ovale form dormant hepatic hypnozoites that can reactivate months or years later, producing clinical relapses."
+      },
+      {
+        part: "part4",
+        q: "Why are people with AIDS more susceptible to opportunistic infections?",
+        options: [
+          "A. Damage to the immune system reduces their ability to control pathogens",
+          "B. HIV transforms non-pathogenic bacteria into virulent mutants",
+          "C. The viral coat directly destroys circulating red blood cells",
+          "D. Bone marrow is converted into adipose tissue"
+        ],
+        answer: 0,
+        exp: "Depletion of CD4 T helper lymphocytes disrupts cell-mediated immunity and immune coordination."
+      },
+      {
+        part: "part4",
+        q: "A patient with Ebola develops severe diarrhea and vomiting. Which supportive intervention is especially important?",
+        options: [
+          "A. Careful replacement of fluids and electrolytes",
+          "B. Rapid administration of broad-spectrum antibiotics",
+          "C. Total fluid restriction to reduce gastrointestinal output",
+          "D. High-dose oral iron supplementation"
+        ],
+        answer: 0,
+        exp: "Severe hypovolemic shock and electrolyte derangement from GI loss are primary drivers of mortality in Ebola disease."
+      },
+      {
+        part: "part4",
+        q: "Which statement best defines an opportunistic infection?",
+        options: [
+          "A. An infection that only infects healthcare workers",
+          "B. An infection caused exclusively by drug-resistant bacteria",
+          "C. An infection that occurs more frequently or severely in people with weakened immunity",
+          "D. An infection that is transmitted exclusively via insect vectors"
+        ],
+        answer: 2,
+        exp: "Opportunistic pathogens cause disease when immunity or mucosal barriers are significantly damaged."
+      },
+      {
+        part: "part4",
+        q: "Which parasite stage is injected into a human during the bite of an infected mosquito?",
+        options: ["A. Merozoite", "B. Sporozoite", "C. Trophozoite", "D. Gametocyte"],
+        answer: 1,
+        exp: "Sporozoites residing in mosquito salivary glands are injected into the bloodstream during a bite."
+      },
+      {
+        part: "part4",
+        q: "Which enzyme converts HIV RNA into DNA?",
+        options: ["A. Protease", "B. Reverse transcriptase", "C. Integrase", "D. RNA polymerase II"],
+        answer: 1,
+        exp: "Reverse transcriptase converts single-stranded viral RNA into double-stranded complementary DNA."
+      },
+      {
+        part: "part4",
+        q: "A person with HIV feels well while taking antiretroviral therapy and asks whether treatment is still necessary. Which explanation is most appropriate?",
+        options: [
+          "A. Continuing treatment as prescribed helps maintain viral suppression and protect immunity",
+          "B. Treatment can be stopped once symptoms resolve completely",
+          "C. Therapy is only needed during active symptomatic flares",
+          "D. Stopping therapy allows natural host antibodies to clear the remaining virus"
+        ],
+        answer: 0,
+        exp: "Antiretroviral therapy does not cure latent proviral reservoirs; uninterrupted adherence is mandatory to maintain suppression."
+      },
+      {
+        part: "part4",
+        q: "Which organ is primarily affected by hepatitis B virus infection?",
+        options: ["A. Kidneys", "B. Liver", "C. Lungs", "D. Spleen"],
+        answer: 1,
+        exp: "Hepatitis B specifically targets hepatocytes in the liver."
+      },
+      {
+        part: "part4",
+        q: "Which malaria parasite stage is ingested by a mosquito feeding on an infected human?",
+        options: ["A. Sporozoite", "B. Schizont", "C. Gametocyte", "D. Hypnozoite"],
+        answer: 2,
+        exp: "Male and female gametocytes are ingested by the mosquito and undergo sexual reproduction in the insect gut."
+      },
+      {
+        part: "part4",
+        q: "After entering the human body through a mosquito bite, malaria sporozoites first establish infection in which cells?",
+        options: ["A. Liver cells", "B. Mature erythrocytes", "C. Endothelial cells", "D. B lymphocytes"],
+        answer: 0,
+        exp: "Sporozoites travel directly to the liver via circulation and infect hepatocytes for primary exoerythrocytic schizogony."
+      },
+      {
+        part: "part4",
+        q: "Which immune cells are major targets of HIV infection?",
+        options: ["A. Neutrophils", "B. Erythrocytes", "C. Natural killer cells", "D. CD4 T lymphocytes"],
+        answer: 3,
+        exp: "HIV binds to CD4 receptors located primarily on CD4+ T helper lymphocytes."
+      },
+      {
+        part: "part4",
+        q: "Which immune cells are major targets of HIV infection? (Reinforcement)",
+        options: ["A. Eosinophils", "B. Platelets", "C. CD4 T lymphocytes", "D. Basophils"],
+        answer: 2,
+        exp: "CD4 T lymphocytes are the defining target cells depleted throughout HIV disease."
+      },
+      {
+        part: "part4",
+        q: "Which enzyme cleaves HIV protein chains to help produce mature, infectious virus particles?",
+        options: ["A. Reverse transcriptase", "B. Protease", "C. Integrase", "D. Amylase"],
+        answer: 1,
+        exp: "HIV protease cuts immature Gag-Pol polyprotein precursors into functional viral enzymes and structural proteins."
+      },
+      {
+        part: "part4",
+        q: "Which exposure can transmit hepatitis B virus?",
+        options: [
+          "A. Sharing water cups or eating utensils",
+          "B. Sharing needles contaminated with infected blood",
+          "C. Casual handshake or hugging",
+          "D. Inhalation of respiratory droplets in public spaces"
+        ],
+        answer: 1,
+        exp: "HBV is parenterally transmitted via contaminated blood, needles, or sexual contact."
+      },
+      {
+        part: "part4",
+        q: "Which exposure is a recognized route of human-to-human Ebola transmission?",
+        options: [
+          "A. Inhaling dry room air 30 feet from a patient",
+          "B. Drinking municipally treated tap water",
+          "C. Casual touching of intact, dry outer garments",
+          "D. Infected blood entering another person through broken skin"
+        ],
+        answer: 3,
+        exp: "Direct contact with infectious blood, body fluids, or broken skin/mucous membranes transmits Ebola."
+      },
+      {
+        part: "part4",
+        q: "Which intervention provides active immunity against hepatitis B?",
+        options: [
+          "A. Administration of hepatitis B vaccine",
+          "B. Infusion of intravenous immunoglobulin (IVIG)",
+          "C. Course of prophylactic antibiotics",
+          "D. Passive antibody transfer across the placenta"
+        ],
+        answer: 0,
+        exp: "The Hepatitis B vaccine stimulates the host's own immune system to generate protective anti-HBs antibodies."
+      },
+      {
+        part: "part4",
+        q: "Which serious complication may develop from chronic hepatitis B infection?",
+        options: ["A. Pulmonary fibrosis", "B. Hepatocellular carcinoma", "C. Chronic pancreatitis", "D. Glomerulonephritis"],
+        answer: 1,
+        exp: "Chronic HBV infection is a major cause of liver cirrhosis and primary hepatocellular carcinoma."
+      },
+      {
+        part: "part4",
+        q: "What does AIDS stand for?",
+        options: [
+          "A. Autoimmune Deficiency Syndrome",
+          "B. Acquired Intestinal Disease Syndrome",
+          "C. Acute Inflammatory Disorder Symptom",
+          "D. Acquired Immunodeficiency Syndrome"
+        ],
+        answer: 3,
+        exp: "AIDS stands for Acquired Immunodeficiency Syndrome."
+      },
+      {
+        part: "part4",
+        q: "What is the main purpose of contact tracing during an Ebola outbreak?",
+        options: [
+          "A. To administer immediate punitive quarantines to all contacts",
+          "B. To identify exposed people and monitor them for symptoms",
+          "C. To eradicate wildlife reservoir species",
+          "D. To screen the blood of the entire national population"
+        ],
+        answer: 1,
+        exp: "Tracing and daily monitoring of contacts ensures early isolation if symptoms emerge, breaking transmission chains."
+      },
+      {
+        part: "part4",
+        q: "Which group of symptoms may occur early in Ebola disease?",
+        options: [
+          "A. Peripheral paralysis, blindness, and tooth decay",
+          "B. Chronic weight gain and bradycardia",
+          "C. Fever, fatigue, muscle pain, and headache",
+          "D. Urticaria and severe localized pruritus"
+        ],
+        answer: 2,
+        exp: "Early non-specific signs of Ebola include sudden fever, profound fatigue, myalgias, and severe headache."
+      },
+      {
+        part: "part4",
+        q: "Under certain circumstances, members of a person's resident biota can become opportunistic pathogens.",
+        options: ["A. True", "B. False"],
+        answer: 0,
+        exp: "True. Resident microbiota can become opportunistic pathogens when host immune defenses are impaired or tissue barriers are broken."
+      }
+    ];
+
+    let currentQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let userSelections = {};
+
+    function showView(viewId) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById(viewId).classList.add('active');
+    }
+
+    function showBranchSelect() {
+      showView('view-branches');
+    }
+
+    function startQuiz(partKey) {
+      if (partKey === 'all') {
+        currentQuestions = [...quizData];
+        document.getElementById('quiz-branch-tag').textContent = "Full Practice Bank (132 Items)";
+      } else {
+        currentQuestions = quizData.filter(item => item.part === partKey);
+        const labels = {
+          part1: "Part I: Fundamental Principles (Q1–20)",
+          part2: "Part II: NRS103 Series (Q21–60)",
+          part3: "Part III: Respiratory Infections (Q61–91)",
+          part4: "Part IV: Virology & Parasitology (Q92–132)"
+        };
+        document.getElementById('quiz-branch-tag').textContent = labels[partKey] || "Section Quiz";
+      }
+
+      currentIndex = 0;
+      score = 0;
+      userSelections = {};
+      loadQuestion();
+      showView('view-quiz');
+    }
+
+    function loadQuestion() {
+      const q = currentQuestions[currentIndex];
+      document.getElementById('quiz-counter').textContent = `Question ${currentIndex + 1} of ${currentQuestions.length}`;
+      document.getElementById('quiz-question-text').textContent = q.q;
+
+      const container = document.getElementById('quiz-options-container');
+      container.innerHTML = '';
+
+      const expBox = document.getElementById('quiz-explanation-box');
+      const alreadyAnswered = userSelections[currentIndex] !== undefined;
+
+      q.options.forEach((optText, optIdx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = optText;
+
+        if (alreadyAnswered) {
+          btn.disabled = true;
+          if (optIdx === q.answer) {
+            btn.classList.add('correct');
+          }
+          if (userSelections[currentIndex] === optIdx && optIdx !== q.answer) {
+            btn.classList.add('incorrect');
+          }
+        } else {
+          btn.onclick = () => selectOption(optIdx);
+        }
+
+        container.appendChild(btn);
+      });
+
+      if (alreadyAnswered) {
+        expBox.classList.remove('hidden');
+        document.getElementById('quiz-result-title').textContent = 
+          userSelections[currentIndex] === q.answer ? "✓ Correct!" : "✗ Rationalization";
+        document.getElementById('quiz-explanation-text').textContent = q.exp;
+      } else {
+        expBox.classList.add('hidden');
+      }
+
+      document.getElementById('btn-prev').disabled = currentIndex === 0;
+      document.getElementById('btn-next').textContent = 
+        currentIndex === currentQuestions.length - 1 ? "Finish Quiz" : "Next";
+    }
+
+    function selectOption(selectedIdx) {
+      const q = currentQuestions[currentIndex];
+      userSelections[currentIndex] = selectedIdx;
+
+      if (selectedIdx === q.answer) {
+        score++;
+      }
+
+      loadQuestion();
+    }
+
+    function nextQuestion() {
+      if (currentIndex < currentQuestions.length - 1) {
+        currentIndex++;
+        loadQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function prevQuestion() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        loadQuestion();
+      }
+    }
+
+    function finishQuiz() {
+      const total = currentQuestions.length;
+      document.getElementById('results-score').textContent = `${score} / ${total}`;
+      const percentage = Math.round((score / total) * 100);
+
+      let msg = "";
+      if (percentage >= 90) {
+        msg = `Dean's List caliber performance! You scored ${percentage}%. You are ready for the exam!`;
+      } else if (percentage >= 75) {
+        msg = `Great work! You scored ${percentage}%. A quick pass on the rationalizations will solidify full mastery.`;
+      } else {
+        msg = `You scored ${percentage}%. Consider reviewing this branch again before heading into finals!`;
+      }
+      document.getElementById('results-message').textContent = msg;
+      showView('view-results');
+    }
+  </script>
+</body>
+</html>
